@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Super Sprinter 3000 -
+            {% if story_id %}
+                Edit Story
+            {% else %}
+                Add new Story
+            {% endif %}
+        </title>
+    </head>
+    <body>
+        <h2>User Story manager -
+            {% if story_id %}
+                Edit Story
+            {% else %}
+                Add new Story
+            {% endif %}
+        </h2>
+        <form
+        {% if story_id %}
+        action="/story/{{story[0]}}/update"
+        {% else %}
+        action="/save-story"
+        {% endif %}
+        method="post">
+
+            <p>Story title<br>
+            <input name="title" size="61"
+            {% if story_id %}
+            value="{{ story[1] }}"
+            {% endif %}
+            required >
+
+            <p>User story<br>
+            <textarea name="story" rows="4" cols="60" required>{{ story[2] }}</textarea></p>
+
+            <p>Accaptable criteria<br>
+            <textarea name="criteria" rows="8" cols="60" required>{{ story[3] }}</textarea></p>
+
+            <p>Business value<br>
+            <input type="number" name="business_value" min="100" max="1500" step="100"
+                {% if story_id %}
+                value="{{ story[4] }}"
+                {% endif %}
+                required></p>
+
+            <p>Estimation (h)<br>
+            <input type="number" name="estimation" min="0.5" max="40" step="0.5"
+            {% if story_id %}
+            value="{{ story[5] }}"
+            {% endif %}
+            required></p>
+
+            <p>Status<br>
+            <select name="status">
+                <option {{ "selected" if story[6] == "Planning" else '' }}>Planning</option>
+                <option {{ "selected" if story[6] == "TODO" else '' }}>TODO</option>
+                <option {{ "selected" if story[6] == "In progress" else '' }}>In Progress</option>
+                <option {{ "selected" if story[6] == "Review" else '' }}>Review</option>
+                <option {{ "selected" if story[6] == "Done" else '' }}>Done</option>
+            </select></p>
+
+            <br><br><br>
+
+            <p><button type="submit">
+            {% if story_id %}
+                Update
+            {% else %}
+                Create
+            {% endif %}
+            </button></p>
+        </form>
+    </body>
+</html>
