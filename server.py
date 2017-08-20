@@ -31,10 +31,6 @@ def create_story_id():
         most_recent_id = stories[0][0]
         for story in stories:
             if int(story[0]) > int(most_recent_id):
-                '''
-                if int(story[0]) > int(most_recent_id) + 1 and int(most_recent_id) not in stories:
-                    return int(most_recent_id) + 1
-                '''
                 most_recent_id = story[0]
         return int(most_recent_id) + 1
     else:
@@ -83,7 +79,7 @@ def route_story_id(story_id):
         return 'Error: ID not found'
 
 
-# BUG: when only 1 story left, func doesn't delete it
+# BUG: when only 1 story left, func doesn't delete it, no POST request sent
 @app.route("/story/<story_id>/delete", methods=["POST"])
 def route_delete_story(story_id):
     print('POST request received')
@@ -91,8 +87,7 @@ def route_delete_story(story_id):
     for story in stories:
         if story[0] == story_id:
             stories.remove(story)
-    if stories:
-        update_stories(stories)
+            update_stories(stories)
     return redirect('/')
 
 
